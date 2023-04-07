@@ -13,8 +13,8 @@ const Controls: React.FC = () => {
       maxPolarAngle={Math.PI / 2.2}
       minDistance={0.5}
       maxDistance={0.8}
-      // enableDamping
-      // dampingFactor={0.2}
+      enableDamping
+      dampingFactor={0.2}
       target={[0, 1.2, 0]}
     />
   );
