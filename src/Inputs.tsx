@@ -1,22 +1,21 @@
+import { Checkbox, FileInput, Group } from '@mantine/core';
 import React from 'react';
 
 type Props = {
-  onFileChange: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange: (_: File) => void;
   checked: boolean;
-  onCheckChange: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onCheckChange: (_: boolean) => void;
 };
 
 const Inputs: React.FC<Props> = ({ onFileChange, checked, onCheckChange }) => (
-  <div id="input-container">
-    <label className="file-button">
-      <input type="file" accept=".vrm" onChange={onFileChange} />
-      load VRM
-    </label>
-    <label>
-      <input type="checkbox" checked={checked} onChange={onCheckChange} />
-      show grid
-    </label>
-  </div>
+  <Group style={{ position: 'fixed', top: 0, left: 10, right: 0, zIndex: 1 }}>
+    <FileInput accept=".vrm" onChange={onFileChange} placeholder="Load VRM" />
+    <Checkbox
+      checked={checked}
+      onChange={(e) => onCheckChange(e.currentTarget.checked)}
+      label="show grid"
+    />
+  </Group>
 );
 
 export default Inputs;

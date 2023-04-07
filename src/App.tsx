@@ -28,8 +28,8 @@ const App: React.FC = () => {
   const [showGrid, showGridToggle] = useToggle(false);
 
   const handleFileChange = useCallback(
-    async (event: React.ChangeEvent<HTMLInputElement>) => {
-      const url = URL.createObjectURL(event.target.files![0]);
+    async (file: File) => {
+      const url = URL.createObjectURL(file);
       await loadVRM(url);
       URL.revokeObjectURL(url);
     },

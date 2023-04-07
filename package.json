@@ -19,6 +19,7 @@
     "@mantine/core": "6.0.0",
     "@mantine/hooks": "6.0.0",
     "@pixiv/three-vrm": "^1.0.9",
+    "@react-three/drei": "^9.64.0",
     "@react-three/fiber": "^8.12.0",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "react": "^18.2.0",
