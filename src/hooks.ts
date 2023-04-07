@@ -6,22 +6,16 @@ const useVRM = (): [VRM | null, (url: string) => Promise<void>] => {
   const { current: loader } = useRef(new GLTFLoader());
   const [vrm, setVRM] = useState<VRM | null>(null);
 
-  const loadVRM = useCallback(
-    (url: string): Promise<void> => {
-      console.log(url);
+  const loadVRM = useCallback((url: string): Promise<void> => {
+    loader.register((parser) => new VRMLoaderPlugin(parser)); // here we are installing VRMLoaderPlugin
 
-      loader.register((parser) => new VRMLoaderPlugin(parser)); // here we are installing VRMLoaderPlugin
-
-      return new Promise((resolve: (_: GLTF) => void) => loader.load(url, resolve))
-        .then((gltf) => gltf.userData.vrm)
-        .then((vrm) => {
-          vrm.scene.rotation.y = Math.PI;
-          setVRM(vrm);
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+    return new Promise((resolve: (_: GLTF) => void) => loader.load(url, resolve))
+      .then((gltf) => gltf.userData.vrm)
+      .then((v) => {
+        v.scene.rotation.y = Math.PI;
+        setVRM(v);
+      });
+  }, []);
 
   return [vrm, loadVRM];
 };

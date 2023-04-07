@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Canvas } from '@react-three/fiber';
 import { TextInput } from '@mantine/core';
 import Controls from './Controls';
 import { useToggle, useVRM } from './hooks';
