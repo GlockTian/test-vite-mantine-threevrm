@@ -11,12 +11,15 @@ type Props = {
 const Inputs: React.FC<Props> = ({ onFileChange, onMaxiamoChange, checked, onCheckChange }) => (
   <Group style={{ position: 'fixed', top: 0, left: 10, right: 0, zIndex: 1 }}>
     <FileInput accept=".vrm" onChange={onFileChange} placeholder="Load VRM" />
-    <FileInput accept=".fbx" onChange={onMaxiamoChange} placeholder="Load Maxiamo" />
     <Checkbox
       checked={checked}
       onChange={(e) => onCheckChange(e.currentTarget.checked)}
       label="show grid"
     />
+    <FileInput accept=".fbx" onChange={onMaxiamoChange} placeholder="Load Maxiamo" />
+    <a href="https://maxiamo.com/" target="_blank" rel="noreferrer">
+      Get animation file from Maxiamo
+    </a>
   </Group>
 );
 
