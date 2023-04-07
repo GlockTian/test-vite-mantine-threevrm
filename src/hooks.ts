@@ -9,11 +9,14 @@ const useVRM = (): [VRM | null, (url: string) => Promise<void>] => {
   const loadVRM = useCallback((url: string): Promise<void> => {
     loader.register((parser) => new VRMLoaderPlugin(parser)); // here we are installing VRMLoaderPlugin
 
-    return new Promise((resolve: (_: GLTF) => void) => loader.load(url, resolve))
+    return new Promise((resolve: (_: GLTF) => void) => {
+      loader.load(url, resolve);
+    })
       .then((gltf) => gltf.userData.vrm)
-      .then((v) => {
-        v.scene.rotation.y = Math.PI;
-        setVRM(v);
+      .then((v: VRM) => {
+        const vrmLocal = v;
+        vrmLocal.scene.rotation.y = Math.PI;
+        setVRM(vrmLocal);
       });
   }, []);
 
