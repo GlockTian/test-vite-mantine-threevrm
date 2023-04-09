@@ -8,7 +8,16 @@ type Props = {
 };
 
 const Inputs: React.FC<Props> = ({ onFileChange, checked, onCheckChange }) => (
-  <Group style={{ position: 'fixed', top: 0, left: 10, right: 0, zIndex: 1 }}>
+  <Group
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 10,
+      right: 0,
+      zIndex: 1,
+      backgroundColor: 'transparent',
+    }}
+  >
     <FileInput accept=".vrm" onChange={onFileChange} placeholder="Load VRM" />
     <Checkbox
       checked={checked}

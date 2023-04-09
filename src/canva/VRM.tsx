@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Vector3 } from 'three';
-import { VRMExpressionPresetName } from '@pixiv/three-vrm';
+import { VRMExpressionPresetName, VRMHumanBoneName } from '@pixiv/three-vrm';
+import { vrmArmsDown, vrmEmotion } from './VrmAction';
+import VRMContext from './VRMContext';
 
 type Props = {
   vrm: import('@pixiv/three-vrm').VRM | null;
@@ -46,7 +48,6 @@ const useTimer = (callback: () => void, delay: number) => {
 };
 
 const useVrmSpeakingAnimation = (vrm: import('@pixiv/three-vrm').VRM | null) => {
-  const [delta, setDelta] = useState(0);
   const [isOpenMouth, setIsOpenMouth] = useState(false);
 
   const { startTimer, endTimer } = useTimer(() => {
@@ -57,56 +58,30 @@ const useVrmSpeakingAnimation = (vrm: import('@pixiv/three-vrm').VRM | null) => 
       } else {
         vrm.expressionManager?.setValue(VRMExpressionPresetName.Aa, 0);
       }
-      vrm.update(delta);
     }
   }, 100);
-
-  useEffect(() => {
-    if (vrm) {
-      vrm.expressionManager?.setValue(VRMExpressionPresetName.Happy, 0.5);
-      vrm.update(delta);
-    }
-  }, [vrm]);
 
   return { startTimer, endTimer };
 };
 
 const VRM: React.FC<Props> = ({ vrm }) => {
-  const [delta, setDelta] = useState(0);
-
-  const { startTimer, endTimer } = useVrmSpeakingAnimation(vrm);
+  // const { startTimer, endTimer } = useVrmSpeakingAnimation(vrm);
+  const { emotion } = useContext(VRMContext);
 
   useFrame(({ mouse }, delta) => {
     if (vrm) {
       if (vrm.lookAt) vrm.lookAt.lookAt(new Vector3(mouse.x, mouse.y, 0));
+      vrmEmotion(vrm, emotion);
+      console.log('emotion', emotion);
       vrm.update(delta);
-      setDelta(delta);
     }
   });
 
   useEffect(() => {
-    if (!vrm) return;
-    setTimeout(() => {
-      startTimer();
-    }, 10000);
-    setTimeout(() => {
-      endTimer();
-    }, 20000);
+    if (vrm) {
+      vrmArmsDown(vrm);
+    }
   }, [vrm]);
-
-  // useEffect(() => {
-  //   // create a periodic timer that trigger every second
-  //   if (vrm) {
-  //     setIsHappy(!isHappy);
-  //     if (isHappy) {
-  //       vrm.expressionManager?.setValue(VRMExpressionPresetName.Happy, 1);
-  //     } else {
-  //       vrm.expressionManager?.setValue(VRMExpressionPresetName.Happy, 0);
-  //     }
-  //     vrm.update(delta);
-  //     console.log('update', delta, isHappy);
-  //   }
-  // }, []);
 
   // eslint-disable-next-line react/no-unknown-property
   return vrm && <primitive object={vrm.scene} />;

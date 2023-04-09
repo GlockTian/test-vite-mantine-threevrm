@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { TextInput } from '@mantine/core';
 import Controls from './canva/Controls';
@@ -6,6 +6,8 @@ import { useToggle, useVRM } from './hooks';
 import Inputs from './components/Inputs';
 import VRM from './canva/VRM';
 import { ThemeProvider } from './ThemeProvider';
+import SidePanel from './components/side-panel';
+import VRMContext from './canva/VRMContext';
 
 const FixedTextInput: React.FC = () => (
   <div
@@ -24,7 +26,7 @@ const FixedTextInput: React.FC = () => (
 );
 
 const App: React.FC = () => {
-  const [vrm, loadVRM] = useVRM();
+  const { vrm, loadVRM } = useContext(VRMContext);
   const [showGrid, showGridToggle] = useToggle(false);
 
   const handleFileChange = useCallback(
@@ -51,6 +53,7 @@ const App: React.FC = () => {
         )}
       </Canvas>
       <FixedTextInput />
+      <SidePanel vrm={vrm} />
     </ThemeProvider>
   );
 };
