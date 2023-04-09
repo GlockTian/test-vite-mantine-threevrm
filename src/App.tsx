@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { TextInput } from '@mantine/core';
-import Controls from './Controls';
+import Controls from './canva/Controls';
 import { useToggle, useVRM } from './hooks';
-import Inputs from './Inputs';
-import VRM from './VRM';
+import Inputs from './components/Inputs';
+import VRM from './canva/VRM';
 import { ThemeProvider } from './ThemeProvider';
 
 const FixedTextInput: React.FC = () => (
