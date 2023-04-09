@@ -30,6 +30,7 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
   return (
     <>
       <Button
+        variant="outline"
         pos={'fixed'}
         top={0}
         right={0}
@@ -38,7 +39,7 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
         }}
         onClick={open}
       >
-        Open
+        Action
       </Button>
       <Drawer
         position="right"

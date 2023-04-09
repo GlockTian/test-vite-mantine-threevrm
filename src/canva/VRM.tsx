@@ -65,12 +65,14 @@ const useVrmSpeakingAnimation = (vrm: import('@pixiv/three-vrm').VRM | null) => 
 };
 
 const VRM: React.FC<Props> = ({ vrm }) => {
-  // const { startTimer, endTimer } = useVrmSpeakingAnimation(vrm);
+  const { startTimer, endTimer } = useVrmSpeakingAnimation(vrm);
   const { emotion } = useContext(VRMContext);
 
-  useFrame(({ mouse }, delta) => {
+  useFrame(({ mouse, camera }, delta) => {
     if (vrm) {
       // if (vrm.lookAt) vrm.lookAt.lookAt(new Vector3(mouse.x, mouse.y, 0));
+      if (vrm.lookAt) vrm.lookAt.lookAt(camera?.position);
+
       vrmEmotion(vrm, emotion);
       vrm.update(delta);
     }
