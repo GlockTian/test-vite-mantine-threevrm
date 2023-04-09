@@ -1,4 +1,5 @@
 import { VRMHumanBoneName, VRMExpressionPresetName } from '@pixiv/three-vrm';
+import { EMOTIONS, TALK_EXPRESSIONS } from '../utils/Emotion';
 
 type VRM = import('@pixiv/three-vrm').VRM;
 const vrmArmsDown = (vrm: VRM) => {
@@ -20,15 +21,32 @@ const vrmArmsUp = (vrm: VRM) => {
 };
 
 const vrmClearAllEmotion = (vrm: VRM) => {
-  // iterate through all vrm emotion
-  Object.values(VRMExpressionPresetName).forEach((emotion) => {
+  EMOTIONS.forEach((emotion) => {
     vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 0);
   });
 };
 
-const vrmEmotion = (vrm: VRM, emotion: VRMExpressionPresetName) => {
-  vrmClearAllEmotion(vrm);
-  vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 1);
+const vrmClearAllTalkExpression = (vrm: VRM) => {
+  TALK_EXPRESSIONS.forEach((emotion) => {
+    vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 0);
+  });
 };
 
-export { vrmArmsDown, vrmArmsUp, vrmEmotion, vrmClearAllEmotion };
+const vrmTalk = (vrm: VRM, emotion: VRMExpressionPresetName) => {
+  vrmClearAllTalkExpression(vrm);
+  vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 0.5);
+};
+
+const vrmEmotion = (vrm: VRM, emotion: VRMExpressionPresetName) => {
+  vrmClearAllEmotion(vrm);
+  vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 0.5);
+};
+
+export {
+  vrmArmsDown,
+  vrmArmsUp,
+  vrmEmotion,
+  vrmClearAllEmotion,
+  vrmTalk,
+  vrmClearAllTalkExpression,
+};

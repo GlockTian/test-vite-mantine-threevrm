@@ -9,17 +9,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import VRMContext from '../canva/VRMContext';
 import { useDisclosure } from '@mantine/hooks';
+import useVrmSpeakingAnimation from '../hooks/useVrmSpeakingAnimation';
+import { EMOTIONS } from '../utils/Emotion';
 
 type VRM = import('@pixiv/three-vrm').VRM;
-const EMOTIONS = [
-  VRMExpressionPresetName.Happy,
-  VRMExpressionPresetName.Angry,
-  VRMExpressionPresetName.Sad,
-  VRMExpressionPresetName.Surprised,
-  VRMExpressionPresetName.Neutral,
-];
-
-const ACTIONS = ['stare', 'speak', 'clear'];
 
 type Props = {
   vrm: import('@pixiv/three-vrm').VRM | null;
@@ -27,6 +20,7 @@ type Props = {
 const SidePanel: React.FC<Props> = ({ vrm }) => {
   const { setEmotion } = useContext(VRMContext);
   const [opened, { open, close }] = useDisclosure(false);
+  const { startTimer, endTimer } = useVrmSpeakingAnimation(vrm);
   return (
     <>
       <Button
@@ -47,7 +41,7 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
         opened={opened}
         onClose={close}
         size="xs"
-        title="Authentication"
+        title="Actions"
       >
         <Flex wrap={'wrap'} direction={'column'}>
           {Object.values(EMOTIONS).map((emotion) => (
@@ -63,6 +57,26 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
               {emotion}
             </Button>
           ))}
+          <Button
+            variant="outline"
+            onClick={() => {
+              if (vrm) {
+                startTimer();
+              }
+            }}
+          >
+            Speak
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              if (vrm) {
+                endTimer();
+              }
+            }}
+          >
+            Stop
+          </Button>
         </Flex>
       </Drawer>
     </>
