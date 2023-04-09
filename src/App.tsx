@@ -31,8 +31,9 @@ const App: React.FC = () => {
 
   const handleFileChange = useCallback(
     async (file: File) => {
+      if (!file) return;
       const url = URL.createObjectURL(file);
-      await loadVRM(url);
+      loadVRM(url);
       URL.revokeObjectURL(url);
     },
     [loadVRM]

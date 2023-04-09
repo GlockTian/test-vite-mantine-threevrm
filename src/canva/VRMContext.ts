@@ -5,7 +5,7 @@ type VRM = import('@pixiv/three-vrm').VRM;
 // Define the type for the VRM context data
 type VRMContextType = {
   vrm: VRM | null;
-  loadVRM: (url: string) => Promise<void>;
+  loadVRM: (url: string) => void;
   emotion: VRMExpressionPresetName;
   setEmotion: (emotion: VRMExpressionPresetName) => void;
 };
@@ -13,7 +13,7 @@ type VRMContextType = {
 // Create the VRM context with an initial value of null
 const VRMContext = createContext<VRMContextType>({
   vrm: null,
-  loadVRM: () => Promise.resolve(),
+  loadVRM: () => {},
   emotion: VRMExpressionPresetName.Neutral,
   setEmotion: () => {},
 });

@@ -2,22 +2,17 @@ import { VRM, VRMLoaderPlugin } from '@pixiv/three-vrm';
 import { useCallback, useRef, useState } from 'react';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-const useVRM = (): [VRM | null, (url: string) => Promise<void>] => {
+const useVRM = (): [VRM | null, (url: string) => void] => {
   const { current: loader } = useRef(new GLTFLoader());
   const [vrm, setVRM] = useState<VRM | null>(null);
 
-  const loadVRM = useCallback((url: string): Promise<void> => {
+  const loadVRM = useCallback((url: string): void => {
     loader.register((parser) => new VRMLoaderPlugin(parser)); // here we are installing VRMLoaderPlugin
-
-    return new Promise((resolve: (_: GLTF) => void) => {
-      loader.load(url, resolve);
-    })
-      .then((gltf) => gltf.userData.vrm)
-      .then((v: VRM) => {
-        const vrmLocal = v;
-        vrmLocal.scene.rotation.y = Math.PI;
-        setVRM(vrmLocal);
-      });
+    loader.load(url, (gltf) => {
+      const vrmLocal = gltf.userData.vrm;
+      vrmLocal.scene.rotation.y = Math.PI;
+      setVRM(vrmLocal);
+    });
   }, []);
 
   return [vrm, loadVRM];

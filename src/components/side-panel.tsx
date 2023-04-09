@@ -19,6 +19,8 @@ const EMOTIONS = [
   VRMExpressionPresetName.Neutral,
 ];
 
+const ACTIONS = ['stare', 'speak', 'clear'];
+
 type Props = {
   vrm: import('@pixiv/three-vrm').VRM | null;
 };
@@ -27,25 +29,26 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
-      <Flex
-        wrap={'wrap'}
-        direction={'column'}
+      <Button
         pos={'fixed'}
         top={0}
         right={0}
-        gap={10}
         style={{
           zIndex: 100,
         }}
+        onClick={open}
       >
-        <Button onClick={open}>Open</Button>
-        <Drawer
-          position="right"
-          overlayProps={{ opacity: 0, blur: 4 }}
-          opened={opened}
-          onClose={close}
-          title="Authentication"
-        >
+        Open
+      </Button>
+      <Drawer
+        position="right"
+        overlayProps={{ opacity: 0, blur: 4 }}
+        opened={opened}
+        onClose={close}
+        size="xs"
+        title="Authentication"
+      >
+        <Flex wrap={'wrap'} direction={'column'}>
           {Object.values(EMOTIONS).map((emotion) => (
             <Button
               variant="outline"
@@ -59,8 +62,8 @@ const SidePanel: React.FC<Props> = ({ vrm }) => {
               {emotion}
             </Button>
           ))}
-        </Drawer>
-      </Flex>
+        </Flex>
+      </Drawer>
     </>
   );
 };

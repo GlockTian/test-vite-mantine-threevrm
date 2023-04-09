@@ -70,9 +70,8 @@ const VRM: React.FC<Props> = ({ vrm }) => {
 
   useFrame(({ mouse }, delta) => {
     if (vrm) {
-      if (vrm.lookAt) vrm.lookAt.lookAt(new Vector3(mouse.x, mouse.y, 0));
+      // if (vrm.lookAt) vrm.lookAt.lookAt(new Vector3(mouse.x, mouse.y, 0));
       vrmEmotion(vrm, emotion);
-      console.log('emotion', emotion);
       vrm.update(delta);
     }
   });

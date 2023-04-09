@@ -29,7 +29,6 @@ const vrmClearAllEmotion = (vrm: VRM) => {
 const vrmEmotion = (vrm: VRM, emotion: VRMExpressionPresetName) => {
   vrmClearAllEmotion(vrm);
   vrm.expressionManager?.setValue(emotion as VRMExpressionPresetName, 1);
-  console.log(emotion);
 };
 
 export { vrmArmsDown, vrmArmsUp, vrmEmotion, vrmClearAllEmotion };
